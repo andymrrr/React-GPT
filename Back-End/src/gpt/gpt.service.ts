@@ -1,8 +1,10 @@
 import OpenAI from "openai";
 
 import { Injectable } from '@nestjs/common';
-import { OrtografiaComprobarCasoUso } from './Caso-Uso';
+import { OrtografiaComprobarCasoUso, ProscontrasCasoUso, ProsContrasTransmisionCasoUso } from './Caso-Uso';
 import { OrtografiaDto } from './Dtos';
+import { ProsContrasDto } from "./Dtos/Pros-contras/Pros-contras.Dto";
+
 
 @Injectable()
 export class GptService {
@@ -15,4 +17,19 @@ export class GptService {
             indicaciones: ortografiaDto.indicaciones
         });
     }
+
+    async prosContras(prosContrasDto: ProsContrasDto)
+    {
+        return await ProscontrasCasoUso(this.openai,{
+            indicaciones: prosContrasDto.indicaciones
+        })
+    }
+
+    async prosContrasTransmision(prosContrasDto: ProsContrasDto)
+    {
+        return await ProsContrasTransmisionCasoUso(this.openai,{
+            indicaciones: prosContrasDto.indicaciones
+        })
+    }
 }
+

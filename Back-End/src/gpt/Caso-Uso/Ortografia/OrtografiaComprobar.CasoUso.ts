@@ -18,7 +18,7 @@ export const OrtografiaComprobarCasoUso = async (
     messages: [
       { 
         role: 'system', 
-        content: `Te seran proveido texto en españo con poible errore ortoografico y gramaticales.
+        content: `Te seran proveido texto en españo con posible errore ortoografico y gramaticales.
                   Las palabras usadas debe de existir en el diccionario de la real academia. 
                   Debes de responder en formato JSON, 
                   tu tarea es corregirlos y retornar informacion soluiones,

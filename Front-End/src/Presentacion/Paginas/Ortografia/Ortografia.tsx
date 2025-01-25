@@ -1,9 +1,15 @@
 import { useState } from "react"
-import { CajaChatTexto, CajaChatTextoArchivo, CajaChatTextoSelect, GptMensaje, Loading, MiMensaje } from "../../Componentes"
+import {  CajaChatTexto, GptMensaje, GptOrtografiaMensaje, Loading, MiMensaje } from "../../Componentes"
+import { OrtografiaCasoUso } from "../../../Nucleo/CasoUso";
 
 interface Mensaje {
   texto:string;
-  esGpt: boolean
+  esGpt: boolean,
+  informacion?: {
+    puntuacion: number;
+    errores:    string[];
+    mensaje:    string;
+  }
 }
 
 export const OrtografiaPagina = () => {
@@ -14,7 +20,24 @@ export const OrtografiaPagina = () => {
     setEstaCargando(true);
     setmesaje((anterior) => [...anterior,{texto: texto, esGpt: false}]);
 
-    //TODO Caso Uso
+  const {errores,mensaje,ok,puntuacion} = await OrtografiaCasoUso(texto);
+  if (!ok) {
+    setmesaje((anterior) => [...anterior,{texto: "No se pudo Realizar la Correccion", esGpt: true}]);
+  }
+  else{
+    setmesaje((anterior) => [...anterior,
+      {
+      texto: mensaje, 
+      esGpt: true,
+      informacion:{
+        errores: errores,
+        mensaje: mensaje,
+        puntuacion: puntuacion
+      }
+    
+    }]);
+  }
+  
 
     setEstaCargando(false)
 
@@ -29,7 +52,11 @@ export const OrtografiaPagina = () => {
             mesajes.map((msj,index) => (
               msj.esGpt ?
               (
-                <GptMensaje key={index}  texto="Esto es OpenAI"/>
+                <GptOrtografiaMensaje key={index} 
+                errores={msj.informacion?.errores!} 
+                mensaje={msj.informacion?.mensaje!} 
+                puntuacion={msj.informacion?.puntuacion!}
+                />
               )
               :
               (
@@ -52,22 +79,12 @@ export const OrtografiaPagina = () => {
         </div>
       </div>
        {/* Caja Texto*/}
-       {/* <CajaChatTexto
+        <CajaChatTexto
         onEnviarMensaje={handleEnviar}
         desabilitarCorreccion
         placeHolder="Escribe lo que deseas"
-       /> */}
-       {/* <CajaChatTextoArchivo
-        onEnviarMensaje={handleEnviar}
-        desabilitarCorreccion
-        placeHolder="Escribe lo que deseas"
-       /> */}
-        <CajaChatTextoSelect
-        onEnviarMensaje={handleEnviar}
-        desabilitarCorreccion
-        placeHolder="Escribe lo que deseas"
-        opciones={[{id:"1", texto:"Hola"},{id:"2", texto:"Mundo"}]}
-       />
+       /> 
+       
     </div>
   )
 }
