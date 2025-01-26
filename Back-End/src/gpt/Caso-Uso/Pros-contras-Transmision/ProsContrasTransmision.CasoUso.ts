@@ -11,7 +11,7 @@ export const ProsContrasTransmisionCasoUso = async (openAi: OpenAI,opciones: Opc
       stream:true,
       model: 'gpt-4o',
       temperature:0.8,
-      max_tokens:330,
+      max_tokens:1500,
      
       messages: [
         { 

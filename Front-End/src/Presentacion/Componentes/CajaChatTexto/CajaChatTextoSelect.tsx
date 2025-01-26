@@ -24,6 +24,9 @@ export const CajaChatTextoSelect = ({
     if (mensaje.trim().length ===0) {
         return;
     }
+    if (seleccionarOpcion ==='') {
+      return;
+    }
     onEnviarMensaje(mensaje,seleccionarOpcion!);
     setMensaje('');
   };
