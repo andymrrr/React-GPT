@@ -2,7 +2,7 @@ import OpenAI from "openai";
 
 import { Injectable } from '@nestjs/common';
 import { OrtografiaComprobarCasoUso, ProscontrasCasoUso, ProsContrasTransmisionCasoUso, TraductorCasoUso } from './Caso-Uso';
-import { OrtografiaDto, ProsContrasDto, TraductorDto } from './Dtos';
+import { OrtografiaDto, ProsContrasDto, TextoAudioDto, TraductorDto } from './Dtos';
 
 
 
@@ -35,6 +35,10 @@ export class GptService {
     async traductor({indicaciones,lenguaje}: TraductorDto)
     {
         return await TraductorCasoUso(this.openai,{indicaciones,lenguaje})
+    }
+    async textoAudio({indicaciones,voz}: TextoAudioDto)
+    {
+        return await Texto(this.openai,{indicaciones,lenguaje})
     }
 }
 
